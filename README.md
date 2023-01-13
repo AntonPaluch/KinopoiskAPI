@@ -1,6 +1,7 @@
 # KinopoiskAPI
 
 KinopoiskAPI MVP   
-Загружаем и отображение фильмов  
+Загрузка и отображение фильмов  
 Стек: MVP, Moya, SnapKit. 
-![](https://ibb.co/ZY6p1Gw.gif)
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/KLjpzbQ/API.gif" alt="API" border="0" /></a>
