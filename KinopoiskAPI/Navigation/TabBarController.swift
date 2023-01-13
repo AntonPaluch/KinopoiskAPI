@@ -16,14 +16,14 @@ class TabBarController: UITabBarController {
             setupUI(
                 rootViewController: movieViewController,
                 image: Images.tabBar.movie,
-                titleNavBar: "",
-                titleTabBar: "Фильмы"
+                titleNavBar: Strings.NavBar.movie,
+                titleTabBar: Strings.TabBar.movie
             ),
             setupUI(
                 rootViewController: searchViewController,
                 image: Images.tabBar.search,
-                titleNavBar: "Поиск по названию",
-                titleTabBar: "Поиск"
+                titleNavBar: Strings.NavBar.search,
+                titleTabBar: Strings.TabBar.search
             )
         ]
         
@@ -39,7 +39,7 @@ class TabBarController: UITabBarController {
         navBarAppearance.backgroundColor = UIColor(red: 248, green: 248, blue: 248, alpha: 0.92)
         navigationVC.navigationBar.standardAppearance = navBarAppearance
         navigationVC.navigationBar.scrollEdgeAppearance = navBarAppearance
-    
+        
         return navigationVC
     }
 }

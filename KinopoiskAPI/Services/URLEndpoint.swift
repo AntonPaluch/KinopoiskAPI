@@ -32,7 +32,7 @@ extension MoviesService: TargetType {
     }
     
     var task: Task {
-        let token = "XSVFQ1H-BFZM73K-GNVXEQS-XDP320B"
+        let token = "G3NV5KZ-STWMZXH-J9D24BJ-WBX16VZ"
         switch self {
         case .bestMovies(let page):
             return .requestParameters(
@@ -54,19 +54,22 @@ extension MoviesService: TargetType {
                      "search": ["5-10", "2015-2022", "1"],
                      "sortField": ["year", "votes.kp"],
                      "sortType": ["-1", "-1"],
-                     "limit": "21",
+                     "limit": "20",
                      "page": "\(page)",
                      "token": token],
                 encoding: URLEncoding.default
             )
         
         case .searchMovies(let name):
+            let formatName = name.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) ?? ""
             return .requestParameters(
                 parameters:
-                    ["search": "\(name)",
+                    ["search": "\(formatName)",
                      "field": "name",
                      "isStrict": "false",
-                     "token": token],
+                     "token": token,
+                     "sortField": "rating.kp",
+                     "sortType": "-1"],
                 encoding: URLEncoding.default
             )
                                                 

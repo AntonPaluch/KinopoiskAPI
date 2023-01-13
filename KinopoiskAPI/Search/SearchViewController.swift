@@ -13,16 +13,19 @@ final class SearchViewController: UIViewController {
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "Название фильма"
+        searchBar.placeholder = Strings.Movies.nameMovie
         return searchBar
     }()
     
     private let tableView = UITableView(frame: .zero, style: .plain)
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        navigationController?.hideKeyboardWhenTappedAround()
         setupTableView()
         view.backgroundColor = .white
         searchBar.delegate = self
@@ -56,7 +59,6 @@ extension SearchViewController: SearchViewProtocol {
 extension SearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(presenter.movies.count)
         return presenter.movies.count
     }
     
@@ -79,13 +81,17 @@ extension SearchViewController: UITableViewDelegate {
 }
 
 extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        
+        presenter.getSearchMovie(withName: searchText)
+        searchBar.resignFirstResponder()
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count >= 3 {
-            presenter.getSearchMovie(withName: searchText)
-        }
         if searchText.isEmpty {
-//            presenter.movies.removeAll()
-//            tableView.reloadData()
+            presenter.movies.removeAll()
+            tableView.reloadData()
         }
     }
 }

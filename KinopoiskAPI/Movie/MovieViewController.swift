@@ -13,16 +13,24 @@ final class MovieViewController: UIViewController {
     var presenter: MoviePresenterProtocol!
     
     private let tableView = UITableView(frame: .zero, style: .plain)
+    
+    private let filterButton = UIBarButtonItem(title: "Фильтр", menu: nil)
 
+    private lazy var moviesRefreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.tintColor = .black
+        refresh.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refresh
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        navigationItem.title = "Фильмы"
         setupTableView()
         configureFiltrButton()
         presenter.getBestMovies()
@@ -39,15 +47,6 @@ final class MovieViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-    
-    private let filterButton = UIBarButtonItem(title: "Фильтр", menu: nil)
-    
-    private lazy var moviesRefreshControl: UIRefreshControl = {
-        let refresh = UIRefreshControl()
-        refresh.tintColor = .black
-        refresh.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
-        return refresh
-    }()
         
     private func configureFiltrButton() {
         let allFilms = { [unowned self] (action: UIAction) in
@@ -120,6 +119,8 @@ extension MovieViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - MovieViewProtocol
+
 extension MovieViewController: MovieViewProtocol {
     
     func setAllMovies() {
@@ -135,8 +136,5 @@ extension MovieViewController: MovieViewProtocol {
         presenter.isDefaultChoice ? presenter.getBestMovies() : presenter.getNewMovies()
         sender.endRefreshing()
     }
-    
-    
-    
 }
 

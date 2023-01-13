@@ -10,14 +10,14 @@ import Foundation
 protocol MovieDetailPresenterProtocol: AnyObject {
     init(networkService: NetworkServiceProtocol, movie: Doc)
     var movie: Doc { get }
-    var movieDetail: MovieDetail? { get }
+    var movieDetails: MovieDetails? { get }
     func getMovieDetails()
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     
     var movie: Doc
-    var movieDetail: MovieDetail?
+    var movieDetails: MovieDetails?
     
     weak var view: MovieDetailViewProtocol!
     
@@ -29,16 +29,21 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     }
     
     func getMovieDetails() {
+        self.view.showSpinner()
         networkService.getMovieDetails(id: movie.id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movie):
-                self.movieDetail = movie
+                self.movieDetails = movie
                 self.view.setupUI()
                 self.view.setupCollectionView()
+                if let video = movie.videos.trailers.first?.url {
+                    self.view.playVideo(videoUrl: (video))
+                }
             case .failure(let error):
                 print(error)
             }
+            self.view.removeSpinner()
         }
     }
 }

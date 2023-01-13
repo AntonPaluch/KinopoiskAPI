@@ -11,6 +11,6 @@ import Kingfisher
 extension UIImageView {
     func setImageFromUrl(imageUrl: String) {
         self.kf.indicatorType = .activity
-        self.kf.setImage(with: URL(string: imageUrl),placeholder: UIImage(named: "placeholderFilms"), options: [.transition(.fade(0.3))])
+        self.kf.setImage(with: URL(string: imageUrl),placeholder: Images.placeholder.placeholderFilms, options: [.transition(.fade(0.3))])
     }
 }

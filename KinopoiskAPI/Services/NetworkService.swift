@@ -11,7 +11,7 @@ import Moya
 protocol NetworkServiceProtocol {
     func getBestMovies(page: Int, completion: @escaping (Result<Movies, Error>) -> Void)
     func getNewMovies(page: Int, completion: @escaping (Result<Movies, Error>) -> Void)
-    func getMovieDetails(id: Int, completion: @escaping (Result<MovieDetail, Error>) -> Void)
+    func getMovieDetails(id: Int, completion: @escaping (Result<MovieDetails, Error>) -> Void)
     func getSearchMovies(name: String, completion: @escaping (Result<Movies, Error>) -> Void)
 }
     
@@ -46,7 +46,7 @@ final class NetworkService: NetworkServiceProtocol {
         getJSONData(moviesProvider: moviesProvider, endpoint: .newMovies(page: page), completion: completion)
     }
     
-    func getMovieDetails(id: Int, completion: @escaping (Result<MovieDetail, Error>) -> Void) {
+    func getMovieDetails(id: Int, completion: @escaping (Result<MovieDetails, Error>) -> Void) {
         getJSONData(moviesProvider: moviesProvider, endpoint: .detailMovie(id: id), completion: completion)
     }
     

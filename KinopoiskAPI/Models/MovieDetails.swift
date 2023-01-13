@@ -1,11 +1,6 @@
-//
-//  DetailMovies.swift
-//  KinopoiskAPI
-//
-//  Created by Dmitriy Pavlov on 10.01.2023.
-//
+import Foundation
 
-struct MovieDetail: Decodable {
+struct MovieDetails: Decodable {
     let videos: Videos
     let genres: [Genres]
     let persons: [Persons]

@@ -7,10 +7,14 @@
 
 import Foundation
 import UIKit
+import WebKit
 
 protocol MovieDetailViewProtocol: AnyObject {
     func setupUI()
     func setupCollectionView()
+    func playVideo(videoUrl: String)
+    func showSpinner()
+    func removeSpinner()
 }
 
 final class MovieDetailViewController: UIViewController {
@@ -107,6 +111,8 @@ final class MovieDetailViewController: UIViewController {
     
     private let personCollectionView = PersonCollectionView()
     
+    private let trailerVideoWebView = WKWebView()
+    
 }
 
 private extension MovieDetailViewController {
@@ -117,7 +123,7 @@ private extension MovieDetailViewController {
         view.add(scrollView)
         
         scrollView.add(scrollViewContainer)
-        scrollViewContainer.addViews([moviePosterImageView, mainStackView])
+        scrollViewContainer.addViews([moviePosterImageView, mainStackView, trailerVideoWebView])
         
         mainStackView.addArrangedSubviews([
             movieNameLabel,
@@ -152,7 +158,13 @@ private extension MovieDetailViewController {
         mainStackView.snp.makeConstraints {
             $0.top.equalTo(moviePosterImageView.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(120)
+        }
+        
+        trailerVideoWebView.snp.makeConstraints {
+            $0.top.equalTo(mainStackView.snp.bottom).offset(100)
+            $0.left.right.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(200)
         }
     }
 }
@@ -161,28 +173,34 @@ extension MovieDetailViewController: MovieDetailViewProtocol {
     
     func setupUI() {
         movieNameLabel.text = presenter.movie.name
-        movieYearLabel.text = "Год выпуска: " + String(presenter.movie.year)
-        movieRatingLabel.text = "Рейтинг кинопоиска: " + String(presenter.movie.rating.kp)
+        movieYearLabel.text = Strings.Movies.movieYear + String(presenter.movie.year)
+        movieRatingLabel.text = Strings.Movies.movieRating  + String(presenter.movie.rating.kp)
         
-        let (hour, min) = (presenter.movie.movieLength ?? 10).convertMinutes()
-        movieLenghtLabel.text = "Длительность: \(hour) ч \(min) мин"
+        let (hour, min) = (presenter.movie.movieLength ?? 0).convertMinutes()
+        movieLenghtLabel.text = Strings.Movies.movieLenght + "\(hour) ч \(min) мин"
         
         movieDescriptionLabel.text = presenter.movie.description ?? ""
         moviePosterImageView.setImageFromUrl(imageUrl: presenter.movie.poster.url)
         
-        personRoleLabel.text = "В ролях:"
-        personRoleLabel.isHidden = presenter.movieDetail?.persons.isEmpty ?? true
-        personCollectionView.isHidden = presenter.movieDetail?.persons.isEmpty ?? true
+        personRoleLabel.text = Strings.Movies.personRole
+        personRoleLabel.isHidden = presenter.movieDetails?.persons.isEmpty ?? true
+        personCollectionView.isHidden = presenter.movieDetails?.persons.isEmpty ?? true
         
         var arrayGenre = [String]()
-        for i in 0...(presenter.movieDetail?.genres.count ?? 1) - 1 {
-            arrayGenre.append(presenter.movieDetail?.genres[i].name ?? "")
+        for i in 0...(presenter.movieDetails?.genres.count ?? 1) - 1 {
+            arrayGenre.append(presenter.movieDetails?.genres[i].name ?? "")
         }
         genreLabel.text = arrayGenre.joined(separator: " , ")
     }
     
     func setupCollectionView() {
-        let persons = presenter.movieDetail?.persons ?? []
+        let persons = presenter.movieDetails?.persons ?? []
         personCollectionView.render(persons: persons)
+    }
+    
+    func playVideo(videoUrl: String) {
+        guard let videoURL = URL(string: videoUrl) else { return }
+        trailerVideoWebView.configuration.mediaTypesRequiringUserActionForPlayback = .all
+        trailerVideoWebView.load(URLRequest(url: videoURL))
     }
 }

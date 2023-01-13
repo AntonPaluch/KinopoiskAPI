@@ -5,6 +5,8 @@
 //  Created by Dmitriy Pavlov on 10.01.2023.
 //
 
+import Foundation
+
 struct Movies: Decodable {
     let docs: [Doc]
     let pages: Int

@@ -9,10 +9,6 @@ import UIKit
 
 final class PersonCollectionView: UIView {
 
-    private enum Constants {
-        static let heightMonth: CGFloat = 32
-    }
-
     // MARK: - Public Properties (Views)
 
     let personCollectionView: UICollectionView = {
@@ -64,7 +60,8 @@ private extension PersonCollectionView {
     func setupConstraints() {
         personCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.bottom.equalToSuperview().inset(20)
+            $0.height.equalTo(120)
         }
     }
 }

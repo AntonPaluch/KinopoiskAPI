@@ -10,7 +10,6 @@ target 'KinopoiskAPI' do
 pod 'Alamofire'
 pod 'Moya', '~> 15.0'
 pod 'SnapKit', '~> 5.6.0'
-pod 'R.swift.Library'
 pod 'Kingfisher', '~> 7.0'
 
 end

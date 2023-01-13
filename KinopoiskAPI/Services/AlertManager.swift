@@ -7,7 +7,7 @@ protocol AlertFactoryProtocol {
 final class AlertFactory: AlertFactoryProtocol {
     static func showAlert(with error: Error) -> UIAlertController {
         let alertController = UIAlertController(
-            title: "Ошибка подключения 😢",
+            title: "Ошибка получения данных",
                 message: error.localizedDescription,
                 preferredStyle: .alert
         )

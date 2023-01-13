@@ -14,11 +14,8 @@ final class MoviesTableViewCell: UITableViewCell {
     
     private enum Constants {
         static let imageSize: CGSize = CGSize(width: 100, height: 135)
-        
-
     }
-    
-    
+
     // MARK: - Private Views
     
     private let movieNameLabel: UILabel = {
@@ -87,7 +84,7 @@ private extension MoviesTableViewCell {
             movieIconLenghtView,
             movieLenghtLabel
         ])
-    
+        
         contentView.addViews([
             movieNameLabel,
             movieYearLabel,
@@ -136,8 +133,8 @@ extension MoviesTableViewCell {
     
     func render(_ movieData: Doc) {
         movieNameLabel.text = movieData.name
-        movieYearLabel.text = "Год выпуска: " + String(movieData.year)
-        movieRatingLabel.text = "Рейтинг кинопоиска: " + String(movieData.rating.kp)
+        movieYearLabel.text = Strings.Movies.movieYear + String(movieData.year)
+        movieRatingLabel.text = Strings.Movies.movieRating + String(movieData.rating.kp)
         let (hour, min) = (movieData.movieLength ?? 10).convertMinutes()
         movieLenghtLabel.text = "\(hour) ч \(min) мин"
         moviePosterImageView.setImageFromUrl(imageUrl: movieData.poster.url)

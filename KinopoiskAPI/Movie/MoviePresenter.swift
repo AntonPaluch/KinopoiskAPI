@@ -17,7 +17,7 @@ final class MoviePresenter: MoviePresenterProtocol {
     var isDefaultChoice = true
     
     weak var view: MovieViewProtocol!
-        
+    
     private let networkService: NetworkServiceProtocol
     
     required init(networkService: NetworkServiceProtocol) {
@@ -32,12 +32,10 @@ final class MoviePresenter: MoviePresenterProtocol {
             case .success(let movies):
                 self.movies.append(contentsOf: movies.docs)
                 self.pages = movies.pages
-                print(movies)
             case .failure(let error):
                 print(error)
                 self.view.showAlert(with: error)
                 self.view.removeSpinner()
-                return
             }
             self.view.setAllMovies()
             self.view.removeSpinner()
@@ -59,8 +57,5 @@ final class MoviePresenter: MoviePresenterProtocol {
             self.view.removeSpinner()
         }
     }
-    
-    
-        
 }
 
